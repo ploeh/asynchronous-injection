@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Ploeh.Samples.BookingApi</AssemblyName>
+    <RootNamespace>Ploeh.Samples.BookingApi</RootNamespace>
+  </PropertyGroup>
+
+</Project>
