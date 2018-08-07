@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Ploeh.Samples.BookingApi
 {
     public interface IReservationsRepository
     {
-        Reservation[] ReadReservations(DateTimeOffset date);
+        Task<Reservation[]> ReadReservations(DateTimeOffset date);
 
-        int Create(Reservation reservation);
+        Task<int> Create(Reservation reservation);
     }
 }

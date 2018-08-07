@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ploeh.Samples.BookingApi
 {
@@ -16,16 +17,17 @@ namespace Ploeh.Samples.BookingApi
         public int Capacity { get; }
         public IReservationsRepository Repository { get; }
 
-        public int? TryAccept(Reservation reservation)
+        public async Task<int?> TryAccept(Reservation reservation)
         {
-            var reservations = Repository.ReadReservations(reservation.Date);
+            var reservations =
+                await Repository.ReadReservations(reservation.Date);
             int reservedSeats = reservations.Sum(r => r.Quantity);
 
             if (Capacity < reservedSeats + reservation.Quantity)
                 return null;
 
             reservation.IsAccepted = true;
-            return Repository.Create(reservation);
+            return await Repository.Create(reservation);
         }
     }
 }

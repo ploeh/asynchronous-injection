@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Ploeh.Samples.BookingApi.UnitTests
@@ -8,7 +9,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
     public class ReservationsIntegrationTests
     {
         [Fact]
-        public void ReservationSucceeds()
+        public async Task ReservationSucceeds()
         {
             var repo = new FakeReservationsRepository();
             var sut = new ReservationsController(new MaîtreD(10, repo));
@@ -20,7 +21,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
                 Name = "Mark Seemann",
                 Quantity = 4
             };
-            var actual = sut.Post(reservation);
+            var actual = await sut.Post(reservation);
 
             Assert.True(reservation.IsAccepted);
             Assert.True(repo.Contains(reservation));
@@ -30,7 +31,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
         }
 
         [Fact]
-        public void ReservationFails()
+        public async Task ReservationFails()
         {
             var repo = new FakeReservationsRepository();
             var sut = new ReservationsController(new MaîtreD(10, repo));
@@ -42,7 +43,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
                 Name = "Mark Seemann",
                 Quantity = 11
             };
-            var actual = sut.Post(reservation);
+            var actual = await sut.Post(reservation);
 
             Assert.False(reservation.IsAccepted);
             Assert.False(repo.Contains(reservation));

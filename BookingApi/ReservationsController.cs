@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ploeh.Samples.BookingApi
 {
@@ -13,9 +14,9 @@ namespace Ploeh.Samples.BookingApi
 
         public IMaîtreD MaîtreD { get; }
 
-        public IActionResult Post(Reservation reservation)
+        public async Task<IActionResult> Post(Reservation reservation)
         {
-            int? id = MaîtreD.TryAccept(reservation);
+            int? id = await MaîtreD.TryAccept(reservation);
             if (id == null)
                 return InternalServerError("Table unavailable");
 

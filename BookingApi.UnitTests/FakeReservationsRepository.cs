@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ploeh.Samples.BookingApi.UnitTests
 {
@@ -14,22 +15,23 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             reservations = new List<Reservation>();
         }
 
-        public int Create(Reservation reservation)
+        public Task<int> Create(Reservation reservation)
         {
             reservations.Add(reservation);
             // Hardly a robut implementation, since indices will be reused,
             // but should be good enough for the purpose of a pair of
             // integration tests
-            return reservations.IndexOf(reservation);
+            return Task.FromResult(reservations.IndexOf(reservation));
         }
 
-        public Reservation[] ReadReservations(DateTimeOffset date)
+        public Task<Reservation[]> ReadReservations(DateTimeOffset date)
         {
             var firstTick = date.Date;
             var lastTick = firstTick.AddDays(1).AddTicks(-1);
-            return reservations
+            var filteredReservations = reservations
                 .Where(r => firstTick <= r.Date && r.Date <= lastTick)
                 .ToArray();
+            return Task.FromResult(filteredReservations);
         }
 
         public bool Contains(Reservation reservation)
