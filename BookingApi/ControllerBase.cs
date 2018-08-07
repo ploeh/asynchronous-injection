@@ -15,9 +15,9 @@ namespace Ploeh.Samples.BookingApi
             return new OkActionResult(value);
         }
 
-        public IActionResult InternalServerError(string v)
+        public IActionResult InternalServerError(string msg)
         {
-            throw new NotImplementedException();
+            return new InternalServerErrorActionResult(msg);
         }
     }
 }

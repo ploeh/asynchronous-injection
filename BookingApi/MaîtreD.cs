@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Ploeh.Samples.BookingApi
@@ -17,6 +18,12 @@ namespace Ploeh.Samples.BookingApi
 
         public int? TryAccept(Reservation reservation)
         {
+            var reservations = Repository.ReadReservations(reservation.Date);
+            int reservedSeats = reservations.Sum(r => r.Quantity);
+
+            if (Capacity < reservedSeats + reservation.Quantity)
+                return null;
+
             reservation.IsAccepted = true;
             return Repository.Create(reservation);
         }
