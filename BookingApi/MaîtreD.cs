@@ -17,10 +17,10 @@ namespace Ploeh.Samples.BookingApi
         public int Capacity { get; }
         public IReservationsRepository Repository { get; }
 
-        public async Task<int?> TryAccept(Reservation reservation)
+        public async Task<int?> TryAccept(
+            Reservation[] reservations,
+            Reservation reservation)
         {
-            var reservations =
-                await Repository.ReadReservations(reservation.Date);
             int reservedSeats = reservations.Sum(r => r.Quantity);
 
             if (Capacity < reservedSeats + reservation.Quantity)

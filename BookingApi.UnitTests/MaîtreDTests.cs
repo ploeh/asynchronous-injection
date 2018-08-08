@@ -21,9 +21,6 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             int expected)
         {
             td
-                .Setup(r => r.ReadReservations(reservation.Date))
-                .Returns(Task.FromResult(reservations));
-            td
                 .Setup(r => r.Create(reservation))
                 .Returns(Task.FromResult(expected));
             var reservedSeats = reservations.Sum(r => r.Quantity);
@@ -31,7 +28,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             sut = sut.WithCapacity(
                 reservedSeats + reservation.Quantity + excessCapacity);
 
-            var actual = await sut.TryAccept(reservation);
+            var actual = await sut.TryAccept(reservations, reservation);
 
             Assert.Equal(expected, actual);
             Assert.True(reservation.IsAccepted);
@@ -39,19 +36,15 @@ namespace Ploeh.Samples.BookingApi.UnitTests
 
         [Theory, BookingApiTestConventions]
         public async Task TryAcceptReturnsNullOnInsufficientCapacity(
-            [Frozen]Mock<IReservationsRepository> td,
             Reservation reservation,
             Reservation[] reservations,
             MaîtreD sut)
         {
-            td
-                .Setup(r => r.ReadReservations(reservation.Date))
-                .Returns(Task.FromResult(reservations));
             var reservedSeats = reservations.Sum(r => r.Quantity);
             reservation.IsAccepted = false;
             sut = sut.WithCapacity(reservedSeats + reservation.Quantity - 1);
 
-            var actual = await sut.TryAccept(reservation);
+            var actual = await sut.TryAccept(reservations, reservation);
 
             Assert.Null(actual);
             Assert.False(reservation.IsAccepted);
