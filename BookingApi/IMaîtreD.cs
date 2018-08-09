@@ -7,7 +7,7 @@ namespace Ploeh.Samples.BookingApi
 {
     public interface IMaîtreD
     {
-        Task<Maybe<Reservation>> TryAccept(
+        Maybe<Reservation> TryAccept(
             Reservation[] reservations,
             Reservation reservation);
     }

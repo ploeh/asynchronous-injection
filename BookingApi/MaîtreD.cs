@@ -17,8 +17,7 @@ namespace Ploeh.Samples.BookingApi
         public int Capacity { get; }
         public IReservationsRepository Repository { get; }
 
-#pragma warning disable 1998
-        public async Task<Maybe<Reservation>> TryAccept(
+        public Maybe<Reservation> TryAccept(
             Reservation[] reservations,
             Reservation reservation)
         {
@@ -30,6 +29,5 @@ namespace Ploeh.Samples.BookingApi
             reservation.IsAccepted = true;
             return new Maybe<Reservation>(reservation);
         }
-#pragma warning restore 1998
     }
 }

@@ -23,7 +23,7 @@ namespace Ploeh.Samples.BookingApi
             var reservations =
                 await Repository.ReadReservations(reservation.Date);
             Maybe<Reservation> m =
-                await MaîtreD.TryAccept(reservations, reservation);
+                MaîtreD.TryAccept(reservations, reservation);
             return await m
                 .Select(async r => await Repository.Create(r))
                 .Match(

@@ -12,7 +12,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
     public class MaîtreDTests
     {
         [Theory, BookingApiTestConventions]
-        public async Task TryAcceptReturnsReservationIdInHappyPathScenario(
+        public void TryAcceptReturnsReservationIdInHappyPathScenario(
             [Frozen]Mock<IReservationsRepository> td,
             Reservation reservation,
             Reservation[] reservations,
@@ -28,7 +28,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             sut = sut.WithCapacity(
                 reservedSeats + reservation.Quantity + excessCapacity);
 
-            var actual = await sut.TryAccept(reservations, reservation);
+            var actual = sut.TryAccept(reservations, reservation);
 
 
             Assert.Equal(new Maybe<Reservation>(reservation), actual);
@@ -36,7 +36,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
         }
 
         [Theory, BookingApiTestConventions]
-        public async Task TryAcceptReturnsNullOnInsufficientCapacity(
+        public void TryAcceptReturnsNullOnInsufficientCapacity(
             Reservation reservation,
             Reservation[] reservations,
             MaîtreD sut)
@@ -45,7 +45,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             reservation.IsAccepted = false;
             sut = sut.WithCapacity(reservedSeats + reservation.Quantity - 1);
 
-            var actual = await sut.TryAccept(reservations, reservation);
+            var actual = sut.TryAccept(reservations, reservation);
 
             Assert.True(actual.IsNothing);
             Assert.False(reservation.IsAccepted);
