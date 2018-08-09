@@ -8,14 +8,14 @@ namespace Ploeh.Samples.BookingApi
     public class ReservationsController : ControllerBase
     {
         public ReservationsController(
-            IMaîtreD maîtreD,
+            int capacity,
             IReservationsRepository repository)
         {
-            MaîtreD = maîtreD;
+            Capacity = capacity;
             Repository = repository;
         }
 
-        public IMaîtreD MaîtreD { get; }
+        public int Capacity { get; }
         public IReservationsRepository Repository { get; }
 
         public async Task<IActionResult> Post(Reservation reservation)
@@ -23,7 +23,7 @@ namespace Ploeh.Samples.BookingApi
             var reservations =
                 await Repository.ReadReservations(reservation.Date);
             Maybe<Reservation> m =
-                MaîtreD.TryAccept(reservations, reservation);
+                new MaîtreD(Capacity).TryAccept(reservations, reservation);
             return await m
                 .Select(async r => await Repository.Create(r))
                 .Match(
