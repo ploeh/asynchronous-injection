@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ploeh.Samples.BookingApi
 {
-    public class MaîtreD : IMaîtreD
+    public class MaîtreD
     {
         public MaîtreD(int capacity)
         {
