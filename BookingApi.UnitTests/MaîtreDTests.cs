@@ -30,7 +30,8 @@ namespace Ploeh.Samples.BookingApi.UnitTests
 
             var actual = await sut.TryAccept(reservations, reservation);
 
-            Assert.Equal(new Maybe<int>(expected), actual);
+
+            Assert.Equal(new Maybe<Reservation>(reservation), actual);
             Assert.True(reservation.IsAccepted);
         }
 
