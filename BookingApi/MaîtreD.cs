@@ -17,17 +17,18 @@ namespace Ploeh.Samples.BookingApi
         public int Capacity { get; }
         public IReservationsRepository Repository { get; }
 
-        public async Task<int?> TryAccept(
+        public async Task<Maybe<int>> TryAccept(
             Reservation[] reservations,
             Reservation reservation)
         {
             int reservedSeats = reservations.Sum(r => r.Quantity);
 
             if (Capacity < reservedSeats + reservation.Quantity)
-                return null;
+                return new Maybe<int>();
 
             reservation.IsAccepted = true;
-            return await Repository.Create(reservation);
+            var id = await Repository.Create(reservation);
+            return new Maybe<int>(id);
         }
     }
 }

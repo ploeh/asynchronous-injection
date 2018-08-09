@@ -22,11 +22,10 @@ namespace Ploeh.Samples.BookingApi
         {
             var reservations =
                 await Repository.ReadReservations(reservation.Date);
-            int? id = await MaîtreD.TryAccept(reservations, reservation);
-            if (id == null)
-                return InternalServerError("Table unavailable");
-
-            return Ok(id.Value);
+            Maybe<int> m = await MaîtreD.TryAccept(reservations, reservation);
+            return m.Match(
+                nothing: InternalServerError("Table unavailable"),
+                just: id => Ok(id));
         }
     }
 }

@@ -46,6 +46,10 @@ namespace Ploeh.Samples.BookingApi
             return Match(nothing: new Maybe<TResult>(), just: selector);
         }
 
+        public bool IsNothing => Match(nothing: true, just: _ => false);
+
+        public bool IsJust => !IsNothing;
+
         public override bool Equals(object obj)
         {
             if (!(obj is Maybe<T> other))
