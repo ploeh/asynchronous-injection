@@ -28,7 +28,7 @@ namespace Ploeh.Samples.BookingApi
                 .Select(async r => await Repository.Create(r))
                 .Match(
                     nothing: Task.FromResult(InternalServerError("Table unavailable")),
-                    just: async id => Ok(await id));
+                    just: id => id.Select(Ok));
         }
     }
 }
