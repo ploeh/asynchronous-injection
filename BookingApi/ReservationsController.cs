@@ -20,15 +20,17 @@ namespace Ploeh.Samples.BookingApi
 
         public async Task<IActionResult> Post(Reservation reservation)
         {
+            var maîtreD = new MaîtreD(Capacity);
+
             var reservations =
                 await Repository.ReadReservations(reservation.Date);
-            Maybe<Reservation> m =
-                new MaîtreD(Capacity).TryAccept(reservations, reservation);
-            return await m
-                .Select(async r => await Repository.Create(r))
+
+            return await maîtreD
+                .TryAccept(reservations, reservation)
+                .Traverse(Repository.Create)
                 .Match(
-                    nothing: Task.FromResult(InternalServerError("Table unavailable")),
-                    just: id => id.Select(Ok));
+                    nothing: InternalServerError("Table unavailable"), 
+                    just: id => Ok(id));
         }
     }
 }
