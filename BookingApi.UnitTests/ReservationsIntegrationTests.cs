@@ -12,7 +12,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
         public async Task ReservationSucceeds()
         {
             var repo = new FakeReservationsRepository();
-            var sut = new ReservationsController(new MaîtreD(10, repo), repo);
+            var sut = new ReservationsController(new MaîtreD(10), repo);
 
             var reservation = new Reservation
             {
@@ -34,7 +34,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
         public async Task ReservationFails()
         {
             var repo = new FakeReservationsRepository();
-            var sut = new ReservationsController(new MaîtreD(10, repo), repo);
+            var sut = new ReservationsController(new MaîtreD(10), repo);
 
             var reservation = new Reservation
             {

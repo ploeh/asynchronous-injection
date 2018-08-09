@@ -8,14 +8,12 @@ namespace Ploeh.Samples.BookingApi
 {
     public class MaîtreD : IMaîtreD
     {
-        public MaîtreD(int capacity, IReservationsRepository repository)
+        public MaîtreD(int capacity)
         {
             Capacity = capacity;
-            Repository = repository;
         }
 
         public int Capacity { get; }
-        public IReservationsRepository Repository { get; }
 
         public Maybe<Reservation> TryAccept(
             Reservation[] reservations,

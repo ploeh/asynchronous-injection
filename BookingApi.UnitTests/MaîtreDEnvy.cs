@@ -10,7 +10,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             this MaîtreD maîtreD,
             int newCapacity)
         {
-            return new MaîtreD(newCapacity, maîtreD.Repository);
+            return new MaîtreD(newCapacity);
         }
     }
 }
