@@ -22,14 +22,11 @@ namespace Ploeh.Samples.BookingApi
         {
             var maîtreD = new MaîtreD(Capacity);
 
-            var reservations =
-                await Repository.ReadReservations(reservation.Date);
-
-            return await maîtreD
-                .TryAccept(reservations, reservation)
-                .Traverse(Repository.Create)
+            return await Repository.ReadReservations(reservation.Date)
+                .Select(rs => maîtreD.TryAccept(rs, reservation))
+                .SelectMany(m => m.Traverse(Repository.Create))
                 .Match(
-                    nothing: InternalServerError("Table unavailable"), 
+                    nothing: InternalServerError("Table unavailable"),
                     just: id => Ok(id));
         }
     }
