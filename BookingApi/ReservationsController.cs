@@ -28,7 +28,7 @@ namespace Ploeh.Samples.BookingApi
                 .SelectMany(m => m.Traverse(Repository.Create))
                 .Match(
                     nothing: InternalServerError("Table unavailable"),
-                    just: id => Ok(id));
+                    just: Ok);
         }
     }
 }
