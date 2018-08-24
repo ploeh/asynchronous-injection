@@ -14,18 +14,15 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             var repo = new FakeReservationsRepository();
             var sut = new ReservationsController(10, repo);
 
-            var reservation = new Reservation
-            {
-                Date = new DateTimeOffset(2018, 8, 13, 16, 53, 0, TimeSpan.FromHours(2)),
-                Email = "mark@example.com",
-                Name = "Mark Seemann",
-                Quantity = 4
-            };
+            var reservation = new Reservation(
+                date: new DateTimeOffset(2018, 8, 13, 16, 53, 0, TimeSpan.FromHours(2)),
+                email: "mark@example.com",
+                name: "Mark Seemann",
+                quantity: 4);
             var actual = await sut.Post(reservation);
 
-            Assert.True(reservation.IsAccepted);
-            Assert.True(repo.Contains(reservation));
-            var expectedId = repo.GetId(reservation);
+            Assert.True(repo.Contains(reservation.Accept()));
+            var expectedId = repo.GetId(reservation.Accept());
             var ok = Assert.IsAssignableFrom<OkActionResult>(actual);
             Assert.Equal(expectedId, ok.Value);
         }
@@ -36,13 +33,11 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             var repo = new FakeReservationsRepository();
             var sut = new ReservationsController(10, repo);
 
-            var reservation = new Reservation
-            {
-                Date = new DateTimeOffset(2018, 8, 13, 16, 53, 0, TimeSpan.FromHours(2)),
-                Email = "mark@example.com",
-                Name = "Mark Seemann",
-                Quantity = 11
-            };
+            var reservation = new Reservation(
+                date: new DateTimeOffset(2018, 8, 13, 16, 53, 0, TimeSpan.FromHours(2)),
+                email: "mark@example.com",
+                name: "Mark Seemann",
+                quantity: 11);
             var actual = await sut.Post(reservation);
 
             Assert.False(reservation.IsAccepted);

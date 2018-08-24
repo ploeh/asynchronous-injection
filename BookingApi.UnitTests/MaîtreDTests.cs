@@ -24,15 +24,12 @@ namespace Ploeh.Samples.BookingApi.UnitTests
                 .Setup(r => r.Create(reservation))
                 .Returns(Task.FromResult(expected));
             var reservedSeats = reservations.Sum(r => r.Quantity);
-            reservation.IsAccepted = false;
             sut = sut.WithCapacity(
                 reservedSeats + reservation.Quantity + excessCapacity);
 
             var actual = sut.TryAccept(reservations, reservation);
 
-
-            Assert.Equal(new Maybe<Reservation>(reservation), actual);
-            Assert.True(reservation.IsAccepted);
+            Assert.Equal(new Maybe<Reservation>(reservation.Accept()), actual);
         }
 
         [Theory, BookingApiTestConventions]
@@ -42,7 +39,6 @@ namespace Ploeh.Samples.BookingApi.UnitTests
             MaîtreD sut)
         {
             var reservedSeats = reservations.Sum(r => r.Quantity);
-            reservation.IsAccepted = false;
             sut = sut.WithCapacity(reservedSeats + reservation.Quantity - 1);
 
             var actual = sut.TryAccept(reservations, reservation);

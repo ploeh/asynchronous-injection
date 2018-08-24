@@ -24,8 +24,7 @@ namespace Ploeh.Samples.BookingApi
             if (Capacity < reservedSeats + reservation.Quantity)
                 return new Maybe<Reservation>();
 
-            reservation.IsAccepted = true;
-            return new Maybe<Reservation>(reservation);
+            return new Maybe<Reservation>(reservation.Accept());
         }
     }
 }
