@@ -12,7 +12,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
     public class MaîtreDTests
     {
         [Theory, BookingApiTestConventions]
-        public void TryAcceptReturnsReservationIdInHappyPathScenario(
+        public void TryAcceptReturnsReservationInHappyPathScenario(
             Reservation reservation,
             Reservation[] reservations,
             MaîtreD sut,
@@ -28,7 +28,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
         }
 
         [Theory, BookingApiTestConventions]
-        public void TryAcceptReturnsNullOnInsufficientCapacity(
+        public void TryAcceptReturnsNothingOnInsufficientCapacity(
             Reservation reservation,
             Reservation[] reservations,
             MaîtreD sut)
