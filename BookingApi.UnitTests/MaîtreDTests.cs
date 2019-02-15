@@ -13,16 +13,11 @@ namespace Ploeh.Samples.BookingApi.UnitTests
     {
         [Theory, BookingApiTestConventions]
         public void TryAcceptReturnsReservationIdInHappyPathScenario(
-            [Frozen]Mock<IReservationsRepository> td,
             Reservation reservation,
             Reservation[] reservations,
             MaîtreD sut,
-            int excessCapacity,
-            int expected)
+            int excessCapacity)
         {
-            td
-                .Setup(r => r.Create(reservation))
-                .Returns(Task.FromResult(expected));
             var reservedSeats = reservations.Sum(r => r.Quantity);
             sut = sut.WithCapacity(
                 reservedSeats + reservation.Quantity + excessCapacity);
