@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploeh.Samples.BookingApi.UnitTests
+﻿namespace Ploeh.Samples.BookingApi.UnitTests
 {
     public static class MaîtreDEnvy
     {
