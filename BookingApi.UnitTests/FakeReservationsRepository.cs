@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ploeh.Samples.BookingApi.UnitTests
@@ -18,7 +17,7 @@ namespace Ploeh.Samples.BookingApi.UnitTests
         public Task<int> Create(Reservation reservation)
         {
             reservations.Add(reservation);
-            // Hardly a robut implementation, since indices will be reused,
+            // Hardly a robust implementation, since indices will be reused,
             // but should be good enough for the purpose of a pair of
             // integration tests
             return Task.FromResult(reservations.IndexOf(reservation));
