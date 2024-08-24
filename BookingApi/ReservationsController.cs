@@ -25,7 +25,7 @@ namespace Ploeh.Samples.BookingApi
         {
             return await Repository.ReadReservations(reservation.Date)
                 .Select(rs => maîtreD.TryAccept(rs, reservation))
-                .SelectMany(m => m.Traverse(Repository.Create))
+                .SelectMany(r => Repository.Create(r).Select(i => new Maybe<int>(i)))
                 .Match(InternalServerError("Table unavailable"), Ok);
         }
     }
