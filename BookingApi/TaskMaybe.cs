@@ -34,6 +34,13 @@ namespace Ploeh.Samples.BookingApi
                 just: x => selector(x));
         }
 
+        public static Task<Maybe<TResult>> SelectMany<T, TResult>(
+            this Task<Maybe<T>> source,
+            Func<T, Task<TResult>> selector)
+        {
+            return source.SelectMany(x => selector(x).Select(y => new Maybe<TResult>(y)));
+        }
+
         public static Task<Maybe<TResult>> Traverse<T, TResult>(
             this Maybe<T> source,
             Func<T, Task<TResult>> selector)
