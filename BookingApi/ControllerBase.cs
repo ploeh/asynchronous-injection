@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ploeh.Samples.BookingApi
+﻿namespace Ploeh.Samples.BookingApi
 {
     public abstract class ControllerBase
     {

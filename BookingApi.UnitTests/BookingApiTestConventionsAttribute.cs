@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
-using System;
 
 namespace Ploeh.Samples.BookingApi.UnitTests
 {
